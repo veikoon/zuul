@@ -1,0 +1,11 @@
+#BlueJ class context
+comment0.target=Room
+comment1.params=pDes
+comment1.target=Room(java.lang.String)
+comment2.params=pDir
+comment2.target=Room\ getExit(java.lang.String)
+comment3.params=
+comment3.target=java.lang.String\ getDescription()
+comment4.params=pN\ pS\ pE\ pW
+comment4.target=void\ setExits(Room,\ Room,\ Room,\ Room)
+numComments=5
