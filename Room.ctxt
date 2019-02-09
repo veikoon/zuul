@@ -1,0 +1,18 @@
+#BlueJ class context
+comment0.target=Room
+comment1.params=pDes
+comment1.target=Room(java.lang.String)
+comment1.text=\n\ Constructeur\ a\ un\ parametre\ permet\ d'initialiser\ la\ hashmap\ pour\ les\ sorties\ et\ de\ donner\ la\ description\ au\ bon\ argument\n
+comment2.params=pDir
+comment2.target=Room\ getExit(java.lang.String)
+comment2.text=\n\ Fonction\ qui\ permet\ de\ retourner\ la\ sortie\ disponnible\ a\ la\ direction\ donnee\n\ @param\ pDir\ \:\ La\ direction\ dans\ laquelle\ on\ veut\ connaitre\ la\ sortie\n
+comment3.params=
+comment3.target=java.lang.String\ getDescription()
+comment3.text=\n\ Accesseur\ de\ l'argument\ aDescription\n
+comment4.params=pDir\ pNext
+comment4.target=void\ setExits(java.lang.String,\ Room)
+comment4.text=\n\ Methode\ qui\ permet\ d'ajouter\ les\ sorties\ dans\ la\ hashmap\n
+comment5.params=
+comment5.target=java.lang.String\ getExitString()
+comment5.text=\n\ Fonction\ qui\ retourn\ l'ensemble\ des\ directions\ dans\ lesquels\ il\ y\ a\ une\ sortie\n
+numComments=6
