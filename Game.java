@@ -62,7 +62,42 @@ public class Game{
         
         this.aCurrentRoom = vManoir;
     }
-
+    
+    /**
+     * Methode qui permet de lire le texte entre par l'utilisateur, de l'analyser et de le transposer en commande ou non
+     */
+    private boolean processCommand(final Command pCom){
+        boolean vWantToQuit = false;
+        if(!pCom.isUnknown()){
+            System.out.println("I don't know what you mean...");
+            return false;
+        }
+        else{
+            if(pCom.getCommandWord().equals("quit")) return quit(pCom);
+            else if(pCom.getCommandWord().equals("go")) goRoom(pCom);
+            else if(pCom.getCommandWord().equals("look")) look();
+            else if(pCom.getCommandWord().equals("eat")) eat();
+            else if(pCom.getCommandWord().equals("help")) printHelp();
+            return vWantToQuit;
+        }
+    }
+    
+    /**
+     * Affichage de bienvenue, est appele dans le constructeur par defaut
+     */
+    private void printWelcome(){
+        System.out.println("Welcome to the World of Zuul!\nWorld of Zuul is a new, incredibly boring adventure game.\nType 'help' if you need help.");
+        System.out.println(this.aCurrentRoom.getLongDescription());
+    }
+    
+    /**
+     * Commande qui permet de resumer le but du jeu
+     */
+    private void printHelp(){
+        System.out.println("Vos commandes sont :");
+        this.aParser.showCommands();
+    }
+    
     /**
      * Commande principale qui permet de se deplacer a travers le monde
      */
@@ -78,32 +113,15 @@ public class Game{
             }
             else System.out.println("there is no door");
         }
-        printLocationInfo();
+        System.out.println(this.aCurrentRoom.getLongDescription());
     }
     
-    /**
-     * Affichage de bienvenue, est appele dans le constructeur par defaut
-     */
-    private void printWelcome(){
-        System.out.println("Welcome to the World of Zuul!\nWorld of Zuul is a new, incredibly boring adventure game.\nType 'help' if you need help.");
-        System.out.println(this.aCurrentRoom.getDescription());
-        printLocationInfo();
+    public void look(){
+        System.out.println(this.aCurrentRoom.getLongDescription());
     }
     
-    /**
-     * Affichage des informations principales de la salle actuels, est appele a chaque deplacement
-     */
-    private void printLocationInfo(){
-        System.out.println("Vous etes "+ this.aCurrentRoom.getDescription());
-        System.out.print("Les sorties :" + this.aCurrentRoom.getExitString());
-        System.out.println();
-    }
-    
-    /**
-     * Commande qui permet de resumer le but du jeu
-     */
-    private void printHelp(){
-        System.out.println("You are lost. You are alone.\nYou wander around at the university.\nour command words are:\n  go quit help");
+    public void eat(){
+        System.out.println("You have eaten now and you are not hungry any more.");
     }
     
     /**
@@ -117,23 +135,5 @@ public class Game{
         else return true;
     }
     
-    /**
-     * Methode qui permet de lire le texte entre par l'utilisateur, de l'analyser et de le transposer en commande ou non
-     */
-    private boolean processCommand(final Command pCom){
-        if(!pCom.isUnknown()){
-            System.out.println("I don't know what you mean...");
-            return false;
-        }
-        else{
-            if(pCom.getCommandWord().equals("quit")){
-                return quit(pCom);
-            }
-            if(pCom.getCommandWord().equals("go")){
-                goRoom(pCom);
-                return false;
-            }
-            else return false;
-        }
-    }
+    
 } // Game

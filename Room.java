@@ -1,4 +1,4 @@
-import java.util.HashMap;
+import java.util.*;
 
 public class Room{
     /**
@@ -43,13 +43,15 @@ public class Room{
      * Fonction qui retourn l'ensemble des directions dans lesquels il y a une sortie
      */
     public String getExitString(){
-        String vExit = ""; 
-        if(this.getExit("north")!=null) vExit += " north";
-        if(this.getExit("south")!=null) vExit += " south";
-        if(this.getExit("east")!=null) vExit += " east";
-        if(this.getExit("west")!=null) vExit += " west";
-        if(this.getExit("haut")!=null) vExit += " haut";
-        if(this.getExit("bas")!=null) vExit += " bas";
-        return vExit;
+        String vSortie = "";
+        Set<String> vKeys = aExits.keySet();
+        for(String vExit : vKeys){
+            vSortie += " "+vExit;
+        }
+        return vSortie;
+    }
+    
+    public String getLongDescription(){
+        return "Vous etes : " + this.aDescription + ".\n" + getExitString();
     }
 } // Room

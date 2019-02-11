@@ -15,4 +15,6 @@ comment4.text=\n\ Methode\ qui\ permet\ d'ajouter\ les\ sorties\ dans\ la\ hashm
 comment5.params=
 comment5.target=java.lang.String\ getExitString()
 comment5.text=\n\ Fonction\ qui\ retourn\ l'ensemble\ des\ directions\ dans\ lesquels\ il\ y\ a\ une\ sortie\n
-numComments=6
+comment6.params=
+comment6.target=java.lang.String\ getLongDescription()
+numComments=7
