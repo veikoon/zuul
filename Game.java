@@ -1,3 +1,4 @@
+import java.util.*;
 public class Game{
     /**
      * Arguments:
@@ -6,11 +7,13 @@ public class Game{
      */
     private Room aCurrentRoom;
     private Parser aParser;
+    private HashMap<String, Room> aRoom;
     
     /**
      * Constructeur par defaut, il permet principalement de creer les salles et leurs sorties
      */
     public Game(){
+        this.aRoom = new HashMap<String, Room>();
         createRooms();
         this.aParser = new Parser();
         play();
@@ -33,6 +36,7 @@ public class Game{
      * Methode qui permet de creer toutes les salles et leurs sorties (est appele dans le constructeur par defaut)
      */
     private void createRooms(){
+        
         Room vManoir = new Room("au manoir des Duncan");
         Room vJardin = new Room("dans les jardins du manoir" );
         Room vChateau = new Room("dans le chateau des XXTantation" );
@@ -59,6 +63,15 @@ public class Game{
         vBureau.setExits("bas",vCave);
         vCave.setExits("haut",vBureau);
         
+        this.aRoom.put("Manoir",vManoir);
+        this.aRoom.put("Jardin",vJardin);
+        this.aRoom.put("Chateau",vChateau);
+        this.aRoom.put("Palais",vPalais);
+        this.aRoom.put("Cours",vCours);
+        this.aRoom.put("Couloir",vCouloir);
+        this.aRoom.put("Bureau",vBureau);
+        this.aRoom.put("Cave",vCave);
+        this.aRoom.put("Dortoir",vDortoir);
         
         this.aCurrentRoom = vManoir;
     }
@@ -86,7 +99,7 @@ public class Game{
      * Affichage de bienvenue, est appele dans le constructeur par defaut
      */
     private void printWelcome(){
-        System.out.println("Welcome to the World of Zuul!\nWorld of Zuul is a new, incredibly boring adventure game.\nType 'help' if you need help.");
+        System.out.println("Welcome to Tara's Adventure!\nTara's Adventure is a new, incredibly boring adventure game.\nType 'help' if you need help.");
         System.out.println(this.aCurrentRoom.getLongDescription());
     }
     
