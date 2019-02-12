@@ -11,6 +11,7 @@ public class Room{
     private String aDescription;
     private String aImage;
     HashMap<String, Room> aExits;
+    private ItemList aItems;
     
     /**
      * Constructeur a un parametre permet d'initialiser la hashmap pour les sorties et de donner la description au bon argument
@@ -19,13 +20,14 @@ public class Room{
         this.aDescription = pDes;
         this.aExits = new HashMap<String, Room>();
         this.aImage = pIm;
+        this.aItems = new ItemList();
     }
     
     /**
      * Fonction qui permet de retourner la sortie disponnible a la direction donnee
      * @param pDir : La direction dans laquelle on veut connaitre la sortie
      */
-    public Room getExit(String pDir){
+    public Room getExit(final String pDir){
         return this.aExits.get(pDir);
     }
     
@@ -37,29 +39,37 @@ public class Room{
     }
     
     /**
-     * Methode qui permet d'ajouter les sorties dans la hashmap
+     * Fonction qui retourn l'ensemble des cles d'une hashmap
      */
-    public void setExits(String pDir, Room pNext){
-        this.aExits.put(pDir, pNext);
-    }
-        
-    /**
-     * Fonction qui retourn l'ensemble des directions dans lesquels il y a une sortie
-     */
-    public String getExitString(){
-        String vSortie = "";
-        Set<String> vKeys = aExits.keySet();
-        for(String vExit : vKeys){
-            vSortie += " "+vExit;
+    public String getHashMap(final HashMap pMap){
+        String vReturn = "";
+        Set<String> vKeys = pMap.keySet();
+        for(String vObj : vKeys){
+            vReturn += " "+vObj;
         }
-        return vSortie;
+        return vReturn;
     }
     
     public String getLongDescription(){
-        return "Vous etes : " + this.aDescription + ".\n" + getExitString() + "\n";
+        return "Vous etes : " + this.aDescription + "\nLes objets disponnibles sont : " + this.aItems.getItemsString() + "\nLes sorties disponibles sont : " + getHashMap(this.aExits) + "\n";
     }
     
     public String getImage(){
         return this.aImage;
+    }
+    
+    public ItemList getItemList(){
+        return this.aItems;
+    }
+    
+        /**
+     * Methode qui permet d'ajouter les sorties dans la hashmap
+     */
+    public void setExits(final String pDir, final Room pNext){
+        this.aExits.put(pDir, pNext);
+    }
+    
+    public void setItem(final String pName, final Item pItem){
+        this.aItems.setItem(pName,pItem);
     }
 } // Room

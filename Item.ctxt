@@ -1,0 +1,13 @@
+#BlueJ class context
+comment0.target=Item
+comment0.text=\n\ Classe\ permettant\ de\ d\u00E9crire\ un\ Item\ avec\ une\ description\ et\ un\ poids\n\n
+comment1.params=pDescription\ pPoids
+comment1.target=Item(java.lang.String,\ int)
+comment1.text=\n\ Constructeur\ naturel\n\ @param\ pWeight\ Poids\ de\ l'item\n\ @param\ pDescription\ Description\ de\ l'item\n
+comment2.params=
+comment2.target=int\ getWeight()
+comment2.text=\n\ getWeight\n\ @return\ Poids\ de\ l'item\n
+comment3.params=
+comment3.target=java.lang.String\ getDescription()
+comment3.text=\n\ getDescription\n\ @return\ Description\ de\ l'item\n
+numComments=4

@@ -1,4 +1,5 @@
 import java.util.*;
+
 public class GameEngine{
     /**
      * Arguments:
@@ -65,27 +66,29 @@ public class GameEngine{
         this.aRoom.put("Cave",vCave);
         this.aRoom.put("Dortoir",vDortoir);
         
+        Item vCle = new Item("Cle",1);
+        
+        vManoir.setItem("Cle",vCle);
+        
         this.aCurrentRoom = vManoir;
     }
     
     /**
      * Methode qui permet de lire le texte entre par l'utilisateur, de l'analyser et de le transposer en commande ou non
      */
-    public boolean interpretCommand(final String pCom){
+    public void interpretCommand(final String pCom){
         aGui.println(pCom);
         Command vCom = this.aParser.getCommand(pCom);
-        boolean vWantToQuit = false;
         if(!vCom.isUnknown()){
-            this.aGui.println("I don't know what you mean...");
-            return false;
+            this.aGui.println("I don't know what you mean...\n");
         }
 
-        if(vCom.getCommandWord().equals("quit")) return quit(vCom);
+        if(vCom.getCommandWord().equals("quit")) quit(vCom);
         else if(vCom.getCommandWord().equals("go")) goRoom(vCom);
         else if(vCom.getCommandWord().equals("look")) look();
         else if(vCom.getCommandWord().equals("eat")) eat();
-        else if(vCom.getCommandWord().equals("help")) printHelp();
-        return vWantToQuit;
+        else if(vCom.getCommandWord().equals("help")) help();
+        else if(vCom.getCommandWord().equals("inventory")) inventory();
     }
     
     /**
@@ -98,19 +101,11 @@ public class GameEngine{
     }
     
     /**
-     * Commande qui permet de resumer le but du jeu
-     */
-    private void printHelp(){
-        this.aGui.println("Vos commandes sont :");
-        this.aParser.showCommands();
-    }
-    
-    /**
      * Commande principale qui permet de se deplacer a travers le monde
      */
     public void goRoom(final Command pCom){
         if(!pCom.hasSecondWord()){
-            this.aGui.println("go where ?");
+            this.aGui.println("go where ?\n");
             return;
         }else{
             String vDirection = pCom.getSecondWord();
@@ -118,11 +113,19 @@ public class GameEngine{
                 Room vNextRoom = this.aCurrentRoom.getExit(vDirection);
                 this.aCurrentRoom = vNextRoom;
             }
-            else this.aGui.println("there is no door");
+            else this.aGui.println("there is no door\n");
         }
         this.aGui.println(this.aCurrentRoom.getLongDescription());
         this.aGui.showImage(this.aCurrentRoom.getImage());
     }
+    
+        /**
+     * Commande qui permet de resumer le but du jeu
+     */
+    public void help(){
+        this.aGui.println("Vos commandes sont : "+this.aParser.showCommands()+"\n");
+    }
+    
     
     public void look(){
         this.aGui.println(this.aCurrentRoom.getLongDescription());
@@ -132,14 +135,21 @@ public class GameEngine{
         this.aGui.println("You have eaten now and you are not hungry any more.\n");
     }
     
+    public void inventory(){
+        this.aGui.println("Vous portez : \n");
+    }
+    
     /**
      * Commande primordiale qui permet de stopper le jeu
      */
-    private boolean quit(final Command pCom){
+    private void quit(final Command pCom){
         if(pCom.hasSecondWord()){
-            this.aGui.println("Quit what ?");
-            return false;
+            this.aGui.println("Quit what ?\n");
         }
-        else return true;
+        else{
+            this.aGui.println("Thank you for playing.  Good bye.");
+            this.aGui.enable(false);
+            System.exit(0);
+        }
     }
 } // Game

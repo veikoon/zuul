@@ -91,23 +91,46 @@ public class UserInterface implements ActionListener
         JPanel vPanel = new JPanel();
         this.aImage = new JLabel();
 
-        vPanel.setLayout( new BorderLayout() );
-        vPanel.add( this.aImage, BorderLayout.NORTH );
-        vPanel.add( vListScroller, BorderLayout.CENTER );
-        vPanel.add( this.aEntryField, BorderLayout.SOUTH );
+        JButton vButtonHelp, vButtonLook, vButtonInventory, vButtonQuit, vButtonBack;
+        vButtonHelp = new JButton("help");
+        vButtonLook = new JButton("look");
+        vButtonInventory = new JButton("inventory");
+        vButtonQuit = new JButton("quit");
+        vButtonBack = new JButton("back");
 
-        this.aMyFrame.getContentPane().add( vPanel, BorderLayout.CENTER );
+        vPanel.setLayout(new BorderLayout());
+        vPanel.add(aImage, BorderLayout.NORTH);
+        vPanel.add(vListScroller, BorderLayout.CENTER);
+        vPanel.add(aEntryField, BorderLayout.SOUTH);
+
+        JPanel vPanelRight = new JPanel();
+        vPanelRight.setLayout(new GridLayout(6,1));
+        vPanelRight.add(vButtonHelp);
+        vPanelRight.add(vButtonBack);
+        vPanelRight.add(vButtonLook);
+        //vPanelRight.add(vButtonEat);
+        vPanelRight.add(vButtonInventory);
+        vPanelRight.add(vButtonQuit);
+        vPanel.add(vPanelRight, BorderLayout.EAST);
+
+        this.aMyFrame.getContentPane().add(vPanel, BorderLayout.CENTER);
 
         // add some event listeners to some components
-        this.aMyFrame.addWindowListener( new WindowAdapter() {
-            public void windowClosing(WindowEvent e) { System.exit(0); }
-        } );
+        this.aMyFrame.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {System.exit(0);}
+        });
 
-        this.aEntryField.addActionListener( this );
+        aEntryField.addActionListener(this);
+        vButtonHelp.addActionListener(this);
+        vButtonBack.addActionListener(this);
+        vButtonLook.addActionListener(this);
+        //vButtonEat.addActionListener(this);
+        vButtonInventory.addActionListener(this);
+        vButtonQuit.addActionListener(this);
 
         this.aMyFrame.pack();
-        this.aMyFrame.setVisible( true );
-        this.aEntryField.requestFocus();
+        this.aMyFrame.setVisible(true);
+        aEntryField.requestFocus();
     } // createGUI()
 
     /**
@@ -115,9 +138,14 @@ public class UserInterface implements ActionListener
      */
     public void actionPerformed( final ActionEvent pE ) 
     {
-        // no need to check the type of action at the moment.
-        // there is only one possible action: text entry
-        this.processCommand();
+        if(aEntryField.isEditable()){
+            if(pE.getSource() == aEntryField){
+                processCommand();
+            }
+            else{
+                aEngine.interpretCommand(pE.getActionCommand());
+            }
+        }
     } // actionPerformed(.)
 
     /**
