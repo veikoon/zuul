@@ -1,5 +1,3 @@
- 
-
 public class Command{
     private String aCommandWord;
     private String aSecondWord;
