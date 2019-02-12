@@ -1,0 +1,14 @@
+#BlueJ class context
+comment0.target=Player
+comment0.text=\n\ Write\ a\ description\ of\ class\ Player\ here.\n\n\ @author\ (your\ name)\n\ @version\ (a\ version\ number\ or\ a\ date)\n
+comment1.params=pRoom
+comment1.target=Player(Room)
+comment2.params=
+comment2.target=Room\ getCurrentRoom()
+comment3.params=pRoom
+comment3.target=void\ setCurrentRoom(Room)
+comment4.params=
+comment4.target=ItemList\ getInventory()
+comment5.params=pItem
+comment5.target=void\ takeItem(Item)
+numComments=6

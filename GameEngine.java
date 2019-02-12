@@ -6,10 +6,10 @@ public class GameEngine{
      * aCurrentRoom est la salle dans laquelle se trouve le joueur en permanance
      * aParser permet de capter la commande entré par le joueur
      */
-    private Room aCurrentRoom;
     private Parser aParser;
     private UserInterface aGui;
     private HashMap<String, Room> aRoom;
+    private Player aPlayer;
     
     /**
      * Constructeur par defaut, il permet principalement de creer les salles et leurs sorties
@@ -70,7 +70,7 @@ public class GameEngine{
         
         vManoir.setItem("Cle",vCle);
         
-        this.aCurrentRoom = vManoir;
+        this.aPlayer = new Player(vManoir);
     }
     
     /**
@@ -88,6 +88,7 @@ public class GameEngine{
         else if(vCom.getCommandWord().equals("look")) look();
         else if(vCom.getCommandWord().equals("eat")) eat();
         else if(vCom.getCommandWord().equals("help")) help();
+        else if(vCom.getCommandWord().equals("take")) take(vCom);
         else if(vCom.getCommandWord().equals("inventory")) inventory();
     }
     
@@ -96,8 +97,8 @@ public class GameEngine{
      */
     private void printWelcome(){
         this.aGui.println("Welcome to Tara's Adventure!\nTara's Adventure is a new, incredibly boring adventure game.\nType 'help' if you need help.");
-        this.aGui.println(this.aCurrentRoom.getLongDescription());
-        this.aGui.showImage(this.aCurrentRoom.getImage());
+        this.aGui.println(this.aPlayer.getCurrentRoom().getLongDescription());
+        this.aGui.showImage(this.aPlayer.getCurrentRoom().getImage());
     }
     
     /**
@@ -109,14 +110,14 @@ public class GameEngine{
             return;
         }else{
             String vDirection = pCom.getSecondWord();
-            if(this.aCurrentRoom.getExit(vDirection) != null){
-                Room vNextRoom = this.aCurrentRoom.getExit(vDirection);
-                this.aCurrentRoom = vNextRoom;
+            if(this.aPlayer.getCurrentRoom().getExit(vDirection) != null){
+                Room vNextRoom = this.aPlayer.getCurrentRoom().getExit(vDirection);
+                this.aPlayer.setCurrentRoom(vNextRoom);
             }
             else this.aGui.println("there is no door\n");
         }
-        this.aGui.println(this.aCurrentRoom.getLongDescription());
-        this.aGui.showImage(this.aCurrentRoom.getImage());
+        this.aGui.println(this.aPlayer.getCurrentRoom().getLongDescription());
+        this.aGui.showImage(this.aPlayer.getCurrentRoom().getImage());
     }
     
         /**
@@ -128,7 +129,7 @@ public class GameEngine{
     
     
     public void look(){
-        this.aGui.println(this.aCurrentRoom.getLongDescription());
+        this.aGui.println(this.aPlayer.getCurrentRoom().getLongDescription());
     }
     
     public void eat(){
@@ -137,6 +138,18 @@ public class GameEngine{
     
     public void inventory(){
         this.aGui.println("Vous portez : \n");
+    }
+    
+    public void take(final Command pCom){
+        if(pCom.hasSecondWord()){
+            this.aGui.println("Take what ?\n");
+        }
+        else{
+            String vCom = pCom.getSecondWord();
+            if(this.aPlayer.getCurrentRoom().getItemList().containsKey(vCom)){
+                this.aPlayer.takeItem(this.aPlayer.getCurrentRoom().getItemList().getItem(vCom));
+            }
+        }
     }
     
     /**
