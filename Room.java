@@ -1,4 +1,6 @@
-import java.util.*;
+import java.util.Set;
+import java.util.HashMap;
+import java.util.Iterator;
 
 public class Room{
     /**
@@ -7,14 +9,16 @@ public class Room{
      * aExit stoque l'ensemble des sorties disponnibles depuis ce lieu
      */
     private String aDescription;
+    private String aImage;
     HashMap<String, Room> aExits;
     
     /**
      * Constructeur a un parametre permet d'initialiser la hashmap pour les sorties et de donner la description au bon argument
      */
-    public Room(final String pDes){
+    public Room(final String pDes, final String pIm){
         this.aDescription = pDes;
         this.aExits = new HashMap<String, Room>();
+        this.aImage = pIm;
     }
     
     /**
@@ -52,6 +56,10 @@ public class Room{
     }
     
     public String getLongDescription(){
-        return "Vous etes : " + this.aDescription + ".\n" + getExitString();
+        return "Vous etes : " + this.aDescription + ".\n" + getExitString() + "\n";
+    }
+    
+    public String getImage(){
+        return this.aImage;
     }
 } // Room
