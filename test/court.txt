@@ -1,0 +1,6 @@
+go south
+go east
+go south
+go south
+go west
+go bas

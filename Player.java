@@ -11,6 +11,7 @@ public class Player
     private Room aCurrentRoom;
     private String aPrenom;
     private Stack<Room> aBack;
+    private int aPoidsMax = 5;
     
     public Player(final Room pRoom, final String pRenom){
         this.aInventory = new ItemList();
@@ -24,8 +25,16 @@ public class Player
         return this.aCurrentRoom;
     }
     
+    public int getPOIDS(){
+        return this.aPoidsMax;
+    }
+    
     public void setCurrentRoom(final Room pRoom){
         this.aCurrentRoom = pRoom;
+    }
+    
+    public void setPoidsMax(final int pInt){
+        this.aPoidsMax = pInt;
     }
     
     public ItemList getInventory(){
@@ -51,12 +60,11 @@ public class Player
     
     public void takeItem(final String pItem){
         this.aInventory.setItem(pItem,this.aCurrentRoom.getItem(pItem));
-        this.aCurrentRoom.removeItem(pItem);
+        this.aCurrentRoom.removeItem(pItem); 
     }
     
     public void dropItem(final String pItem){
         this.aCurrentRoom.setItem(pItem,this.aInventory.getItem(pItem));
         this.aInventory.removeItem(pItem);
     }
-    
 }

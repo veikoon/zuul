@@ -68,8 +68,12 @@ public class GameEngine{
         this.aRoom.put("Dortoir",vDortoir);
         
         Item vCle = new Item("Ceci est une clé",1);
+        Item vPorte = new Item("Ceci est une porte",100);
+        Item vCookie = new Item("Ceci est un cookie magique qui augmente votre poids en inventaire",0);
         
-        vManoir.setItem("Cle",vCle);
+        vManoir.setItem("cle",vCle);
+        vManoir.setItem("porte",vPorte);
+        vChateau.setItem("cookie",vCookie);
         
         String vPrenom = javax.swing.JOptionPane.showInputDialog( "Quel est ton prenom ?" );
         
@@ -93,7 +97,7 @@ public class GameEngine{
         if(vCom.getCommandWord().equals("quit")) quit(vCom);
         else if(vCom.getCommandWord().equals("go")) goRoom(vCom);
         else if(vCom.getCommandWord().equals("look")) look(vCom);
-        else if(vCom.getCommandWord().equals("eat")) eat();
+        else if(vCom.getCommandWord().equals("eat")) eat(vCom);
         else if(vCom.getCommandWord().equals("help")) help();
         else if(vCom.getCommandWord().equals("back")) back();
         else if(vCom.getCommandWord().equals("take")) take(vCom);
@@ -144,12 +148,23 @@ public class GameEngine{
         
     }
     
-    public void eat(){
-        this.aGui.println("You have eaten now and you are not hungry any more.\n");
+    public void eat(final Command pCom){
+        if(pCom.hasSecondWord()){
+            if(pCom.getSecondWord().equals("cookie")){
+                if(this.aPlayer.getInventory().containsKey("cookie")){
+                    this.aPlayer.setPoidsMax(10);
+                    this.aGui.println("Vous avez doublé votre inventaire de taille !\n");
+                    this.aPlayer.getInventory().removeItem("cookie");
+                }
+                else this.aGui.println("Vous n'avez pas de cookie petit coquin !\n");
+            }
+            else this.aGui.println("Eat what ?\n");
+        }
+        else this.aGui.println("You have eaten now and you are not hungry any more.\n");
     }
     
     public void inventory(){
-        this.aGui.println("Vous portez : " + this.aPlayer.getInventory().getItemsString() + "\n");
+        this.aGui.println("Vous portez : " + this.aPlayer.getInventory().getItemsString() +"\nPoids total : "+this.aPlayer.getInventory().getTotalWeight());
     }
     
     public void take(final Command pCom){
@@ -158,7 +173,13 @@ public class GameEngine{
         }
         else{
             String vCom = pCom.getSecondWord();
-            if(getCurrentRoom().getItemList().containsKey(vCom)) this.aPlayer.takeItem(vCom);
+            if(getCurrentRoom().getItemList().containsKey(vCom)) {
+                if(this.aPlayer.getInventory().getTotalWeight()+this.aPlayer.getCurrentRoom().getItemList().getItem(vCom).getWeight()<this.aPlayer.getPOIDS()){
+                    this.aPlayer.takeItem(vCom);
+                    this.aGui.println("Vous avez bien pris : " + vCom + "\n");
+                }
+                else this.aGui.println("Vous ne pouvez pas prendre "+ vCom +" vous etes trop lourd !\n");
+            }
             else this.aGui.println("This Item do not exist !\n");
         }
     }
