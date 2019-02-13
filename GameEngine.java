@@ -1,4 +1,5 @@
 import java.util.*;
+import java.io.*;
 
 public class GameEngine{
     /**
@@ -10,7 +11,6 @@ public class GameEngine{
     private UserInterface aGui;
     private HashMap<String, Room> aRoom;
     private Player aPlayer;
-    private Stack<Room> aBack;
     
     /**
      * Constructeur par defaut, il permet principalement de creer les salles et leurs sorties
@@ -18,7 +18,6 @@ public class GameEngine{
     public GameEngine(){
         this.aRoom = new HashMap<String, Room>();
         this.aParser = new Parser();
-        this.aBack = new Stack<>();
         createRooms();
     }
     
@@ -72,8 +71,9 @@ public class GameEngine{
         
         vManoir.setItem("Cle",vCle);
         
-        this.aPlayer = new Player(vManoir);
-        this.aBack.push(vManoir);
+        String vPrenom = javax.swing.JOptionPane.showInputDialog( "Quel est ton prenom ?" );
+        
+        this.aPlayer = new Player(vManoir,vPrenom);
     }
     
     public Room getCurrentRoom(){
@@ -97,7 +97,9 @@ public class GameEngine{
         else if(vCom.getCommandWord().equals("help")) help();
         else if(vCom.getCommandWord().equals("back")) back();
         else if(vCom.getCommandWord().equals("take")) take(vCom);
+        else if(vCom.getCommandWord().equals("test")) test(vCom);
         else if(vCom.getCommandWord().equals("inventory")) inventory();
+        else if(vCom.getCommandWord().equals("drop")) drop(vCom);
     }
     
     /**
@@ -113,16 +115,10 @@ public class GameEngine{
      * Commande principale qui permet de se deplacer a travers le monde
      */
     public void goRoom(final Command pCom){
-        if(!pCom.hasSecondWord()){
-            this.aGui.println("go where ?\n");
-            return;
-        }else{
+        if(!pCom.hasSecondWord()) this.aGui.println("go where ?\n");
+        else{
             String vDirection = pCom.getSecondWord();
-            if(getCurrentRoom().getExit(vDirection) != null){
-                Room vNextRoom = getCurrentRoom().getExit(vDirection);
-                this.aBack.push(getCurrentRoom());
-                this.aPlayer.setCurrentRoom(vNextRoom);
-            }
+            if(getCurrentRoom().getExit(vDirection) != null) this.aPlayer.walk(pCom);
             else this.aGui.println("there is no door\n");
         }
         this.aGui.println(getCurrentRoom().getLongDescription());
@@ -144,9 +140,8 @@ public class GameEngine{
             }
             else this.aGui.println("Look what ?\n");
         }
-        else{
-            this.aGui.println(getCurrentRoom().getLongDescription());
-        }
+        else this.aGui.println(getCurrentRoom().getLongDescription());
+        
     }
     
     public void eat(){
@@ -163,16 +158,49 @@ public class GameEngine{
         }
         else{
             String vCom = pCom.getSecondWord();
-            if(getCurrentRoom().getItemList().containsKey(vCom)){
-                this.aPlayer.takeItem(getCurrentRoom().getItemList().getItem(vCom));
-            }
+            if(getCurrentRoom().getItemList().containsKey(vCom)) this.aPlayer.takeItem(vCom);
+            else this.aGui.println("This Item do not exist !\n");
+        }
+    }
+    
+    public void drop(final Command pCom){
+        if(!pCom.hasSecondWord()) this.aGui.println("Drop what ?\n");
+        else{
+            String vCom = pCom.getSecondWord();
+            if(this.aPlayer.getInventory().containsKey(vCom)) this.aPlayer.dropItem(vCom);
+            else this.aGui.println("This Item do not exist !\n");
         }
     }
     
     public void back(){
-        this.aPlayer.setCurrentRoom(this.aBack.pop());
+        this.aPlayer.oops();
         this.aGui.println(getCurrentRoom().getLongDescription());
         this.aGui.showImage(getCurrentRoom().getImage());
+    }
+    
+    public void lecture( final String pNomFichier )
+    {
+        Scanner vSc;
+        try { // pour "essayer" les instructions suivantes
+            vSc = new Scanner( new File( pNomFichier ) );
+            while ( vSc.hasNextLine() ) {
+                String vLigne = vSc.nextLine();
+                interpretCommand(vLigne);
+            } // while
+        } // try
+        catch ( final FileNotFoundException pFNFE ) {
+            // traitement en cas d'exception
+        } // catch
+    }
+    
+    public void test(final Command pCom){
+        if(!pCom.hasSecondWord()){
+            this.aGui.println("Test what ?\n");
+        }
+        else{
+            String vCom = "test/" + pCom.getSecondWord() + ".txt";
+            lecture(vCom);
+        }
     }
     
     /**

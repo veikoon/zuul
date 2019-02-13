@@ -1,14 +1,20 @@
 #BlueJ class context
 comment0.target=Player
 comment0.text=\n\ Write\ a\ description\ of\ class\ Player\ here.\n\n\ @author\ (your\ name)\n\ @version\ (a\ version\ number\ or\ a\ date)\n
-comment1.params=pRoom
-comment1.target=Player(Room)
+comment1.params=pRoom\ pRenom
+comment1.target=Player(Room,\ java.lang.String)
 comment2.params=
 comment2.target=Room\ getCurrentRoom()
 comment3.params=pRoom
 comment3.target=void\ setCurrentRoom(Room)
 comment4.params=
 comment4.target=ItemList\ getInventory()
-comment5.params=pItem
-comment5.target=void\ takeItem(Item)
-numComments=6
+comment5.params=pCom
+comment5.target=java.lang.String\ walk(Command)
+comment6.params=
+comment6.target=void\ oops()
+comment7.params=pItem
+comment7.target=void\ takeItem(java.lang.String)
+comment8.params=pItem
+comment8.target=void\ dropItem(java.lang.String)
+numComments=9

@@ -62,6 +62,14 @@ public class Room{
         return this.aItems;
     }
     
+    public Item getItem(final String pItem){
+        return this.aItems.getItem(pItem);
+    }
+    
+    public void removeItem(final String pName){
+        this.aItems.removeItem(pName);
+    }
+    
         /**
      * Methode qui permet d'ajouter les sorties dans la hashmap
      */
