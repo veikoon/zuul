@@ -90,20 +90,20 @@ public class GameEngine{
     public void interpretCommand(final String pCom){
         aGui.println(pCom);
         Command vCom = this.aParser.getCommand(pCom);
-        if(vCom.isUnknown()){
-            this.aGui.println("I don't know what you mean...\n");
+        
+        switch(vCom.getCommandWord()){
+            case QUIT: quit(vCom); break;
+            case GO: goRoom(vCom); break;
+            case LOOK: look(vCom); break;
+            case EAT: eat(vCom); break;
+            case HELP: help(); break;
+            case BACK: back(); break;
+            case TAKE: take(vCom); break;
+            case TEST: test(vCom); break;
+            case INV: inventory(); break;
+            case DROP: drop(vCom); break;
+            default: this.aGui.println("I don't know what you mean...\n"); break;
         }
-
-        if(vCom.getCommandWord()== CommandWord.QUIT) quit(vCom);
-        else if(vCom.getCommandWord()== CommandWord.GO) goRoom(vCom);
-        else if(vCom.getCommandWord()== CommandWord.LOOK) look(vCom);
-        else if(vCom.getCommandWord()== CommandWord.EAT) eat(vCom);
-        else if(vCom.getCommandWord()== CommandWord.HELP) help();
-        else if(vCom.getCommandWord()== CommandWord.BACK) back();
-        else if(vCom.getCommandWord()== CommandWord.TAKE) take(vCom);
-        else if(vCom.getCommandWord()== CommandWord.TEST) test(vCom);
-        else if(vCom.getCommandWord()== CommandWord.INV) inventory();
-        else if(vCom.getCommandWord()== CommandWord.DROP) drop(vCom);
     }
     
     /**
