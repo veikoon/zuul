@@ -90,20 +90,20 @@ public class GameEngine{
     public void interpretCommand(final String pCom){
         aGui.println(pCom);
         Command vCom = this.aParser.getCommand(pCom);
-        if(!vCom.isUnknown()){
+        if(vCom.isUnknown()){
             this.aGui.println("I don't know what you mean...\n");
         }
 
-        if(vCom.getCommandWord().equals("quit")) quit(vCom);
-        else if(vCom.getCommandWord().equals("go")) goRoom(vCom);
-        else if(vCom.getCommandWord().equals("look")) look(vCom);
-        else if(vCom.getCommandWord().equals("eat")) eat(vCom);
-        else if(vCom.getCommandWord().equals("help")) help();
-        else if(vCom.getCommandWord().equals("back")) back();
-        else if(vCom.getCommandWord().equals("take")) take(vCom);
-        else if(vCom.getCommandWord().equals("test")) test(vCom);
-        else if(vCom.getCommandWord().equals("inventory")) inventory();
-        else if(vCom.getCommandWord().equals("drop")) drop(vCom);
+        if(vCom.getCommandWord()== CommandWord.QUIT) quit(vCom);
+        else if(vCom.getCommandWord()== CommandWord.GO) goRoom(vCom);
+        else if(vCom.getCommandWord()== CommandWord.LOOK) look(vCom);
+        else if(vCom.getCommandWord()== CommandWord.EAT) eat(vCom);
+        else if(vCom.getCommandWord()== CommandWord.HELP) help();
+        else if(vCom.getCommandWord()== CommandWord.BACK) back();
+        else if(vCom.getCommandWord()== CommandWord.TAKE) take(vCom);
+        else if(vCom.getCommandWord()== CommandWord.TEST) test(vCom);
+        else if(vCom.getCommandWord()== CommandWord.INV) inventory();
+        else if(vCom.getCommandWord()== CommandWord.DROP) drop(vCom);
     }
     
     /**
@@ -206,7 +206,7 @@ public class GameEngine{
             vSc = new Scanner( new File( pNomFichier ) );
             while ( vSc.hasNextLine() ) {
                 String vLigne = vSc.nextLine();
-                interpretCommand(vLigne);
+                //interpretCommand();
             } // while
         } // try
         catch ( final FileNotFoundException pFNFE ) {

@@ -18,6 +18,7 @@ public class UserInterface implements ActionListener
     private JTextField aEntryField;
     private JTextArea  aLog;
     private JLabel     aImage;
+    private CommandWords aValidCommands;
 
     /**
      * Construct a UserInterface. As a parameter, a Game Engine
@@ -147,6 +148,7 @@ public class UserInterface implements ActionListener
             }
         }
     } // actionPerformed(.)
+    
 
     /**
      * A command has been entered. Read the command and do whatever is 
@@ -157,6 +159,6 @@ public class UserInterface implements ActionListener
         String vInput = this.aEntryField.getText();
         this.aEntryField.setText( "" );
 
-        this.aEngine.interpretCommand( vInput );
+        this.aEngine.interpretCommand(vInput);
     } // processCommand()
 } // UserInterface 

@@ -1,4 +1,4 @@
- 
+ import java.util.*;
 
 /**
  * This class is part of the "World of Zuul" application. 
@@ -12,38 +12,48 @@
  */
 public class CommandWords
 {
-    // tableau constant qui contient tous les mots de commande valides
-    private static final String[] aValidCommands = {"go", "quit", "help", "look", "eat", "inventory", "take", "back", "test", "drop"};
+    private HashMap<String, CommandWord> aValidCommands;
     
     /**
      * Constructeur par defaut
      */
     public CommandWords()
     {
-        // rien a faire pour le moment...
+        aValidCommands = new HashMap<String, CommandWord>();
+        aValidCommands.put("go", CommandWord.GO);
+        aValidCommands.put("help", CommandWord.HELP);
+        aValidCommands.put("quit", CommandWord.QUIT);
+        aValidCommands.put("look", CommandWord.LOOK);
+        aValidCommands.put("eat", CommandWord.EAT);
+        aValidCommands.put("inventory", CommandWord.INV);
+        aValidCommands.put("take", CommandWord.TAKE);
+        aValidCommands.put("back", CommandWord.BACK);
+        aValidCommands.put("test", CommandWord.TEST);
+        aValidCommands.put("drop", CommandWord.DROP);
     } // CommandWords()
+    
+    public CommandWord getCommandWord(final String pCommandWord){
+        CommandWord command = aValidCommands.get(pCommandWord);
+        if(command != null) {
+            return command;
+        }
+        else {
+            return CommandWord.UNKNOWN;
+        }
+    }
 
     /**
      * Verifie si une String donnee fait partie des commandes valides. 
      * @param pString la String a tester
      * @return true si pString est une comande valide, false sinon
      */
-    public boolean isCommand( final String pString )
-    {
-        // pour chacune des commandes valides (du tableau constant)
-        for ( int i=0; i<aValidCommands.length; i++ ) {
-            // si elle est egale a pString
-            if ( aValidCommands[i].equals( pString ) )
-                return true;
-        } // for
-        // si nous arrivons la, c'est que la commande
-        // n'a pas ete trouvee dans le tableau
-        return false;
-    } // isCommand()
+    public boolean isCommand( final String pString ){
+        return aValidCommands.containsKey(pString);
+    }
     
     public String getCommandList(){
         String vCom = "";
-        for(String command : aValidCommands){
+        for(String command : aValidCommands.keySet()){
             vCom += command + " ";
         }
         return vCom;
