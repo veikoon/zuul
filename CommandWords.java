@@ -19,27 +19,12 @@ public class CommandWords
      */
     public CommandWords()
     {
-        aValidCommands = new HashMap<String, CommandWord>();
-        aValidCommands.put("go", CommandWord.GO);
-        aValidCommands.put("help", CommandWord.HELP);
-        aValidCommands.put("quit", CommandWord.QUIT);
-        aValidCommands.put("look", CommandWord.LOOK);
-        aValidCommands.put("eat", CommandWord.EAT);
-        aValidCommands.put("inventory", CommandWord.INV);
-        aValidCommands.put("take", CommandWord.TAKE);
-        aValidCommands.put("back", CommandWord.BACK);
-        aValidCommands.put("test", CommandWord.TEST);
-        aValidCommands.put("drop", CommandWord.DROP);
-        aValidCommands.put("aller", CommandWord.GO);
-        aValidCommands.put("aide", CommandWord.HELP);
-        aValidCommands.put("quitter", CommandWord.QUIT);
-        aValidCommands.put("regarder", CommandWord.LOOK);
-        aValidCommands.put("manger", CommandWord.EAT);
-        aValidCommands.put("inventaire", CommandWord.INV);
-        aValidCommands.put("inv", CommandWord.INV);
-        aValidCommands.put("prendre", CommandWord.TAKE);
-        aValidCommands.put("retour", CommandWord.BACK);
-        aValidCommands.put("lacher", CommandWord.DROP);
+        this.aValidCommands = new HashMap<String, CommandWord>();
+        for(CommandWord command : CommandWord.values()) {
+            if(command != CommandWord.UNKNOWN) {
+                this.aValidCommands.put(command.toString(), command);
+            }
+        }
     } // CommandWords()
     
     public CommandWord getCommandWord(final String pCommandWord){

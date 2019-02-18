@@ -1,5 +1,6 @@
 import java.util.*;
 import java.io.*;
+import java.time.*;
 
 public class GameEngine{
     /**
@@ -11,6 +12,7 @@ public class GameEngine{
     private UserInterface aGui;
     private HashMap<String, Room> aRoom;
     private Player aPlayer;
+    private double aTime;
     
     /**
      * Constructeur par defaut, il permet principalement de creer les salles et leurs sorties
@@ -19,6 +21,7 @@ public class GameEngine{
         this.aRoom = new HashMap<String, Room>();
         this.aParser = new Parser();
         createRooms();
+        this.aTime = System.nanoTime();
     }
     
     public void setGUI(UserInterface pUserInt){
@@ -88,6 +91,10 @@ public class GameEngine{
      * Methode qui permet de lire le texte entre par l'utilisateur, de l'analyser et de le transposer en commande ou non
      */
     public void interpretCommand(final String pCom){
+        if ((System.nanoTime() - this.aTime) * Math.pow(10,-9)/60 >=1){
+            lose();
+            return;
+        }
         aGui.println(pCom);
         Command vCom = this.aParser.getCommand(pCom);
         switch(vCom.getCommandWord()){
@@ -101,6 +108,7 @@ public class GameEngine{
             case TEST: test(vCom); break;
             case INV: inventory(); break;
             case DROP: drop(vCom); break;
+            case TIME: time(); break;
             default: this.aGui.println("I don't know what you mean...\n"); break;
         }
     }
@@ -221,6 +229,17 @@ public class GameEngine{
             String vCom = "test/" + pCom.getSecondWord() + ".txt";
             lecture(vCom);
         }
+    }
+    
+    public void time(){
+        double vMin = (System.nanoTime() - this.aTime) * Math.pow(10,-9)/60;
+        double vSec = (System.nanoTime() - this.aTime) * Math.pow(10,-9)%60;
+        this.aGui.println((int) vMin+":"+(int) vSec);
+    }
+    
+    public void lose(){
+        this.aGui.println("Vous avez perdu, le temps imparti est ecoule !");
+        this.aGui.enable(false);
     }
     
     /**
