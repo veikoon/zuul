@@ -90,7 +90,6 @@ public class GameEngine{
     public void interpretCommand(final String pCom){
         aGui.println(pCom);
         Command vCom = this.aParser.getCommand(pCom);
-        
         switch(vCom.getCommandWord()){
             case QUIT: quit(vCom); break;
             case GO: goRoom(vCom); break;

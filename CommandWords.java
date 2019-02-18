@@ -30,16 +30,22 @@ public class CommandWords
         aValidCommands.put("back", CommandWord.BACK);
         aValidCommands.put("test", CommandWord.TEST);
         aValidCommands.put("drop", CommandWord.DROP);
+        aValidCommands.put("aller", CommandWord.GO);
+        aValidCommands.put("aide", CommandWord.HELP);
+        aValidCommands.put("quitter", CommandWord.QUIT);
+        aValidCommands.put("regarder", CommandWord.LOOK);
+        aValidCommands.put("manger", CommandWord.EAT);
+        aValidCommands.put("inventaire", CommandWord.INV);
+        aValidCommands.put("inv", CommandWord.INV);
+        aValidCommands.put("prendre", CommandWord.TAKE);
+        aValidCommands.put("retour", CommandWord.BACK);
+        aValidCommands.put("lacher", CommandWord.DROP);
     } // CommandWords()
     
     public CommandWord getCommandWord(final String pCommandWord){
         CommandWord command = aValidCommands.get(pCommandWord);
-        if(command != null) {
-            return command;
-        }
-        else {
-            return CommandWord.UNKNOWN;
-        }
+        if(command != null) return command;
+        else return CommandWord.UNKNOWN;
     }
 
     /**
