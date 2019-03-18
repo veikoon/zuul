@@ -44,21 +44,30 @@ public class GameEngine{
         Room vCave = new Room("dans la cave personnel de Maitre Chem","images/cave.jpg");
         Room vDortoir = new Room("dans les dortoirs","images/dortoir.jpg");
 
-        vManoir.setExits("south",vJardin);
-        vJardin.setExits("east",vChateau);
-        vJardin.setExits("north",vManoir);
-        vChateau.setExits("south",vPalais);
-        vChateau.setExits("west",vJardin);
-        vPalais.setExits("south",vCouloir);
-        vPalais.setExits("west",vCours);
-        vPalais.setExits("north",vChateau);
-        vCouloir.setExits("south",vDortoir);
-        vCouloir.setExits("north",vPalais);
-        vCouloir.setExits("west",vBureau);
-        vDortoir.setExits("north",vCouloir);
-        vBureau.setExits("east",vCouloir);
-        vBureau.setExits("bas",vCave);
-        vCave.setExits("haut",vBureau);
+        Item vCleChateau = new Item("Ceci est la clé du chateau",1);
+        Item vPorte = new Item("Ceci est une porte",100);
+        Item vCookie = new Item("Ceci est un cookie magique qui augmente votre poids en inventaire",0);
+        Item vBeamer = new Item("Ceci est un téléporteur",5);
+     
+        vManoir.setItem("cle",vCleChateau);
+        vManoir.setItem("porte",vPorte);
+        vChateau.setItem("cookie",vCookie);
+        vBureau.setItem("beamer",vBeamer);
+        
+        vManoir.setExits("south",new Door(vJardin));
+        vJardin.setExits("east",new Door(vChateau));
+        vJardin.setExits("north",new Door(vManoir));
+        vChateau.setExits("south",new Door(vPalais,vCleChateau));
+        vChateau.setExits("west",new Door(vJardin,vCleChateau));
+        vPalais.setExits("south",new Door(vCouloir));
+        vPalais.setExits("west",new Door(vCours));
+        vPalais.setExits("north",new Door(vChateau));
+        vCouloir.setExits("south",new Door(vDortoir));
+        vCouloir.setExits("north",new Door(vPalais));
+        vCouloir.setExits("west",new Door(vBureau));
+        vDortoir.setExits("north",new Door(vCouloir));
+        vBureau.setExits("east",new Door(vCouloir));
+        vBureau.setExits("bas",new Door(vCave));
         
         this.aRoom.put("Manoir",vManoir);
         this.aRoom.put("Jardin",vJardin);
@@ -69,14 +78,6 @@ public class GameEngine{
         this.aRoom.put("Bureau",vBureau);
         this.aRoom.put("Cave",vCave);
         this.aRoom.put("Dortoir",vDortoir);
-        
-        Item vCle = new Item("Ceci est une clé",1);
-        Item vPorte = new Item("Ceci est une porte",100);
-        Item vCookie = new Item("Ceci est un cookie magique qui augmente votre poids en inventaire",0);
-        
-        vManoir.setItem("cle",vCle);
-        vManoir.setItem("porte",vPorte);
-        vChateau.setItem("cookie",vCookie);
         
         String vPrenom = javax.swing.JOptionPane.showInputDialog( "Quel est ton prenom ?" );
         
@@ -91,7 +92,7 @@ public class GameEngine{
      * Methode qui permet de lire le texte entre par l'utilisateur, de l'analyser et de le transposer en commande ou non
      */
     public void interpretCommand(final String pCom){
-        if ((System.nanoTime() - this.aTime) * Math.pow(10,-9)/60 >=1){
+        if ((System.nanoTime() - this.aTime) * Math.pow(10,-9)/60 >=5){
             lose();
             return;
         }
@@ -109,8 +110,15 @@ public class GameEngine{
             case INV: inventory(); break;
             case DROP: drop(vCom); break;
             case TIME: time(); break;
+            case CHARGE: charge(); break;
+            case FIRE: fire(); break;
             default: this.aGui.println("I don't know what you mean...\n"); break;
         }
+    }
+    
+    private void showRoom(){
+        this.aGui.println(getCurrentRoom().getLongDescription());
+        this.aGui.showImage(getCurrentRoom().getImage());
     }
     
     /**
@@ -118,8 +126,7 @@ public class GameEngine{
      */
     private void printWelcome(){
         this.aGui.println("Welcome to Tara's Adventure!\nTara's Adventure is a new, incredibly boring adventure game.\nType 'help' if you need help.");
-        this.aGui.println(getCurrentRoom().getLongDescription());
-        this.aGui.showImage(getCurrentRoom().getImage());
+        showRoom();
     }
     
     /**
@@ -129,11 +136,15 @@ public class GameEngine{
         if(!pCom.hasSecondWord()) this.aGui.println("go where ?\n");
         else{
             String vDirection = pCom.getSecondWord();
-            if(getCurrentRoom().getExit(vDirection) != null) this.aPlayer.walk(pCom);
+            if(getCurrentRoom().getExit(vDirection) != null){
+                if(!getCurrentRoom().getDoor(vDirection).isLocked() || (getCurrentRoom().getDoor(vDirection).isLocked() && this.aPlayer.getInventory().containsValue(getCurrentRoom().getDoor(vDirection).neededKey()))){
+                    this.aPlayer.walk(pCom);
+                }
+                else this.aGui.println("Vous n'avez pas la clé !");
+            }
             else this.aGui.println("there is no door\n");
         }
-        this.aGui.println(getCurrentRoom().getLongDescription());
-        this.aGui.showImage(getCurrentRoom().getImage());
+        showRoom();
     }
     
     /**
@@ -151,7 +162,7 @@ public class GameEngine{
             }
             else this.aGui.println("Look what ?\n");
         }
-        else this.aGui.println(getCurrentRoom().getLongDescription());
+        else showRoom();
         
     }
     
@@ -201,9 +212,8 @@ public class GameEngine{
     }
     
     public void back(){
-        this.aPlayer.oops();
-        this.aGui.println(getCurrentRoom().getLongDescription());
-        this.aGui.showImage(getCurrentRoom().getImage());
+        if(!this.aPlayer.oops()) this.aGui.println("Vous ne pouvez pas revenir en arriere !");
+        showRoom();
     }
     
     public void lecture( final String pNomFichier )
@@ -240,6 +250,24 @@ public class GameEngine{
     public void lose(){
         this.aGui.println("Vous avez perdu, le temps imparti est ecoule !");
         this.aGui.enable(false);
+    }
+    
+    public void charge(){
+        if(this.aPlayer.getRoomCharged() != null) this.aGui.println("Votre téléporteur est déjà chargé !\n");
+        else if(!this.aPlayer.getInventory().containsKey("beamer")) this.aGui.println("Vous n'avez pas de téléporteur !\n");
+        else{
+            this.aPlayer.charge();
+            this.aGui.println("Vous avez chargé votre téléporteur !\n");
+        }
+    }
+    
+    public void fire(){
+        if(this.aPlayer.getRoomCharged() == null) this.aGui.println("Votre téléporteur n'est pas chargé !\n");
+        else if(!this.aPlayer.getInventory().containsKey("beamer")) this.aGui.println("Vous n'avez pas de téléporteur !\n");
+        else{
+            this.aPlayer.fire();
+            showRoom();
+        }
     }
     
     /**

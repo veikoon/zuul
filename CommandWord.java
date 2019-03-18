@@ -19,7 +19,9 @@ public enum CommandWord
     BACK("back"),
     LOOK("look"),
     TEST("test"),
-    TIME("time");
+    TIME("time"),
+    CHARGE("charge"),
+    FIRE("fire");
     private String aCommandString;
     
     /**

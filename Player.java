@@ -12,6 +12,7 @@ public class Player
     private String aPrenom;
     private Stack<Room> aBack;
     private int aPoidsMax = 5;
+    private Room aRoomCharged;
     
     public Player(final Room pRoom, final String pRenom){
         this.aInventory = new ItemList();
@@ -29,6 +30,14 @@ public class Player
         return this.aPoidsMax;
     }
     
+    public ItemList getInventory(){
+        return this.aInventory;
+    }
+    
+    public Room getRoomCharged(){
+        return this.aRoomCharged;
+    }
+    
     public void setCurrentRoom(final Room pRoom){
         this.aCurrentRoom = pRoom;
     }
@@ -37,25 +46,23 @@ public class Player
         this.aPoidsMax = pInt;
     }
     
-    public ItemList getInventory(){
-        return this.aInventory;
+    public void setRoomCharged(final Room pRoom){
+        this.aRoomCharged = pRoom;
     }
     
-    public String walk(final Command pCom){
-        if(!pCom.hasSecondWord()) return "go where ?\n";
-        else{
-            String vDirection = pCom.getSecondWord();
-            if(getCurrentRoom().getExit(vDirection) != null){
-                Room vNextRoom = getCurrentRoom().getExit(vDirection);
-                this.aBack.push(getCurrentRoom());
-                this.setCurrentRoom(vNextRoom);
-                return "";
-            }else return "there is no door\n";
+    public void walk(final Command pCom){
+        String vDirection = pCom.getSecondWord();
+        Room vNextRoom = getCurrentRoom().getExit(vDirection);
+        this.aBack.push(getCurrentRoom());
+        this.setCurrentRoom(vNextRoom);
+    }
+    
+    public boolean oops(){
+        if(this.aCurrentRoom.isExit(this.aBack.peek())){
+            this.setCurrentRoom(this.aBack.pop());
+            return true;
         }
-    }
-    
-    public void oops(){
-        this.setCurrentRoom(this.aBack.pop());
+        else return false;
     }
     
     public void takeItem(final String pItem){
@@ -66,5 +73,14 @@ public class Player
     public void dropItem(final String pItem){
         this.aCurrentRoom.setItem(pItem,this.aInventory.getItem(pItem));
         this.aInventory.removeItem(pItem);
+    }
+    
+    public void charge(){
+        this.aRoomCharged = this.aCurrentRoom;
+    }
+    
+    public void fire(){
+        this.aCurrentRoom = this.aRoomCharged;
+        this.aRoomCharged = null;
     }
 }

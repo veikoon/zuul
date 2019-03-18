@@ -1,6 +1,7 @@
 import java.util.Set;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Enumeration;
 
 public class Room{
     /**
@@ -10,7 +11,7 @@ public class Room{
      */
     private String aDescription;
     private String aImage;
-    HashMap<String, Room> aExits;
+    HashMap<String, Door> aExits;
     private ItemList aItems;
     
     /**
@@ -18,7 +19,7 @@ public class Room{
      */
     public Room(final String pDes, final String pIm){
         this.aDescription = pDes;
-        this.aExits = new HashMap<String, Room>();
+        this.aExits = new HashMap<String, Door>();
         this.aImage = pIm;
         this.aItems = new ItemList();
     }
@@ -28,6 +29,10 @@ public class Room{
      * @param pDir : La direction dans laquelle on veut connaitre la sortie
      */
     public Room getExit(final String pDir){
+        return this.aExits.get(pDir).nextRoom();
+    }
+    
+    public Door getDoor(final String pDir){
         return this.aExits.get(pDir);
     }
     
@@ -41,7 +46,7 @@ public class Room{
     /**
      * Fonction qui retourn l'ensemble des cles d'une hashmap
      */
-    public String getHashMap(final HashMap pMap){
+    private String getHashMap(final HashMap pMap){
         String vReturn = "";
         Set<String> vKeys = pMap.keySet();
         for(String vObj : vKeys){
@@ -73,11 +78,23 @@ public class Room{
         /**
      * Methode qui permet d'ajouter les sorties dans la hashmap
      */
-    public void setExits(final String pDir, final Room pNext){
+    public void setExits(final String pDir, final Door pNext){
         this.aExits.put(pDir, pNext);
     }
     
     public void setItem(final String pName, final Item pItem){
         this.aItems.setItem(pName,pItem);
+    }
+    
+    public boolean isExit(final Room pRoom){
+        boolean vTemp = false;
+        Set cles = aExits.keySet();
+        Iterator it = cles.iterator();
+        while (it.hasNext()){
+           Object cle = it.next();
+           Door valeur = aExits.get(cle);
+           if(valeur.nextRoom()==pRoom) vTemp = true;
+        }
+        return vTemp;
     }
 } // Room

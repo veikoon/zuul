@@ -72,6 +72,10 @@ public class ItemList
     public boolean containsKey(final String pName){
         return this.aItems.containsKey(pName);
     }
+    
+    public boolean containsValue(final Item pName){
+        return this.aItems.containsValue(pName);
+    }
 
     /**
       * isEmpty() : Test si la liste est Vide
