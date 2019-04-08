@@ -10,9 +10,9 @@ public class GameEngine{
      */
     private Parser aParser;
     private UserInterface aGui;
-    private HashMap<String, Room> aRoom;
     private Player aPlayer;
     private double aTime;
+    public HashMap<String, Room> aRoom;
     
     /**
      * Constructeur par defaut, il permet principalement de creer les salles et leurs sorties
@@ -29,6 +29,10 @@ public class GameEngine{
         printWelcome();
     }
     
+    public HashMap<String, Room> getRoomList(){
+        return this.aRoom;
+    }
+    
     /**
      * Methode qui permet de creer toutes les salles et leurs sorties (est appele dans le constructeur par defaut)
      */
@@ -43,6 +47,17 @@ public class GameEngine{
         Room vBureau = new Room("dans le bureau de Maitre Chem","images/bureau.jpg");
         Room vCave = new Room("dans la cave personnel de Maitre Chem","images/cave.jpg");
         Room vDortoir = new Room("dans les dortoirs","images/dortoir.jpg");
+        Room vTeleporteur = new TransporterRoom("Salles des teleportations","images/cave.jpg", this);
+        
+        this.aRoom.put("Manoir",vManoir);
+        this.aRoom.put("Jardin",vJardin);
+        this.aRoom.put("Chateau",vChateau);
+        this.aRoom.put("Palais",vPalais);
+        this.aRoom.put("Cours",vCours);
+        this.aRoom.put("Couloir",vCouloir);
+        this.aRoom.put("Bureau",vBureau);
+        this.aRoom.put("Cave",vCave);
+        this.aRoom.put("Dortoir",vDortoir);
 
         Item vCleChateau = new Item("Ceci est la clé du chateau",1);
         Item vPorte = new Item("Ceci est une porte",100);
@@ -59,6 +74,7 @@ public class GameEngine{
         vJardin.setExits("north",new Door(vManoir));
         vChateau.setExits("south",new Door(vPalais,vCleChateau));
         vChateau.setExits("west",new Door(vJardin,vCleChateau));
+        vChateau.setExits("north", new Door(vTeleporteur));
         vPalais.setExits("south",new Door(vCouloir));
         vPalais.setExits("west",new Door(vCours));
         vPalais.setExits("north",new Door(vChateau));
@@ -68,16 +84,7 @@ public class GameEngine{
         vDortoir.setExits("north",new Door(vCouloir));
         vBureau.setExits("east",new Door(vCouloir));
         vBureau.setExits("bas",new Door(vCave));
-        
-        this.aRoom.put("Manoir",vManoir);
-        this.aRoom.put("Jardin",vJardin);
-        this.aRoom.put("Chateau",vChateau);
-        this.aRoom.put("Palais",vPalais);
-        this.aRoom.put("Cours",vCours);
-        this.aRoom.put("Couloir",vCouloir);
-        this.aRoom.put("Bureau",vBureau);
-        this.aRoom.put("Cave",vCave);
-        this.aRoom.put("Dortoir",vDortoir);
+        vTeleporteur.setExits("tp", new Door(vTeleporteur.getExit("")));
         
         String vPrenom = javax.swing.JOptionPane.showInputDialog( "Quel est ton prenom ?" );
         
