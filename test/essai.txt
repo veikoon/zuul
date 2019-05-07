@@ -1,4 +1,0 @@
-help
-go south
-back
-inventory

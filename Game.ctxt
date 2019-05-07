@@ -2,5 +2,5 @@
 comment0.target=Game
 comment1.params=
 comment1.target=Game()
-comment1.text=\r\n\ Create\ the\ game\ and\ initialise\ its\ internal\ map.\r\n
+comment1.text=\n\ Create\ the\ game\ and\ initialise\ its\ internal\ map.\n
 numComments=2

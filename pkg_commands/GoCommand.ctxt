@@ -1,0 +1,10 @@
+#BlueJ class context
+comment0.target=GoCommand
+comment0.text=\n\ Implementation\ of\ the\ 'go'\ user\ command.\n\ \n\ @author\ Michael\ Kolling\ and\ David\ J.\ Barnes\n\ @version\ 2011.07.31\n
+comment1.params=
+comment1.target=GoCommand()
+comment1.text=\n\ Constructor\ for\ objects\ of\ class\ GoCommand\n
+comment2.params=pPlayer
+comment2.target=void\ execute(pkg_game.Player)
+comment2.text=\n\ Commande\ principale\ qui\ permet\ de\ se\ deplacer\ a\ travers\ le\ monde\n
+numComments=3

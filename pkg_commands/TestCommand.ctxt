@@ -1,0 +1,11 @@
+#BlueJ class context
+comment0.target=TestCommand
+comment0.text=\n\ D\u00E9crivez\ votre\ classe\ TestCommand\ ici.\n\n\ @author\ (votre\ nom)\n\ @version\ (un\ num\u00E9ro\ de\ version\ ou\ une\ date)\n
+comment1.params=
+comment1.target=TestCommand()
+comment1.text=\n\ Constructeur\ d'objets\ de\ classe\ InventoryCommand\n
+comment2.params=pNomFichier
+comment2.target=void\ lecture(java.lang.String)
+comment3.params=pPlayer
+comment3.target=void\ execute(pkg_game.Player)
+numComments=4

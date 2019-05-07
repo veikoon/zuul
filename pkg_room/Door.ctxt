@@ -1,0 +1,14 @@
+#BlueJ class context
+comment0.target=Door
+comment0.text=\n\ Write\ a\ description\ of\ class\ Door\ here.\n\n\ @author\ (your\ name)\n\ @version\ (a\ version\ number\ or\ a\ date)\n
+comment1.params=pNext
+comment1.target=Door(Room)
+comment2.params=pNext\ pKey
+comment2.target=Door(Room,\ pkg_items.Item)
+comment3.params=
+comment3.target=boolean\ isLocked()
+comment4.params=
+comment4.target=pkg_items.Item\ neededKey()
+comment5.params=
+comment5.target=Room\ nextRoom()
+numComments=6

@@ -1,0 +1,24 @@
+#BlueJ class context
+comment0.target=Command
+comment1.params=
+comment1.target=Command()
+comment1.text=\n\ Constructeur\n
+comment2.params=
+comment2.target=CommandWord\ getCommandWord()
+comment2.text=\n\ getCommandWord\ ()\ \:\ Renvoi\ la\ commande\n\ @return\ Premier\ mot\ de\ commande\n
+comment3.params=
+comment3.target=java.lang.String\ getSecondWord()
+comment3.text=\n\ getSecondWord()\ \:\ Renvoi\ le\ second\ mot\ de\ la\ commande\n\ @return\ Second\ mot\ de\ la\ commande\n
+comment4.params=pSecondWord
+comment4.target=void\ setSecondWord(java.lang.String)
+comment4.text=\n\ setSecondWord\ \:\ r\u00E8gle\ aSecondWord\n
+comment5.params=
+comment5.target=boolean\ hasSecondWord()
+comment5.text=\n\ hasSecondWord()\n\ @return\ Renvoi\ true/false\ si\ la\ commande\ \u00E0\ un\ second\ mot\n
+comment6.params=
+comment6.target=boolean\ isUnknown()
+comment6.text=\n\ isUnknown()\n\ @return\ Renvoi\ true/false\ si\ la\ commande\ est\ inconnu\n
+comment7.params=player
+comment7.target=void\ execute(pkg_game.Player)
+comment7.text=\n\ Ex\u00E9cute\ la\ commande.\ Renvoi\ un\ flag\ d'ex\u00E9cution\ au\ jeu\n\ @return\ True,\ true\ si\ le\ jeu\ continue,\ false\ sinon\n
+numComments=8
